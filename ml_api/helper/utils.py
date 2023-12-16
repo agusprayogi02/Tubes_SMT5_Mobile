@@ -1,6 +1,7 @@
 import cv2 as cv
 from matplotlib import pyplot as plt
 import numpy as np
+import pytesseract
 
 
 def toRGB(img):
@@ -132,3 +133,34 @@ def findLargestCountours(cntList, cntWidths):
     print('Old Screen Dimentions filtered', cntWidths)
     print('Screen Dimentions filtered', newCntWidths)
     return newCntList, newCntWidths
+
+
+def extract_text(img) -> list:
+    # Preprocess image
+    img = reflection(img)
+
+    # Extract text
+    text = pytesseract.image_to_string(img, lang='ind')
+    txt = []
+    for word in str(text).split('\n'):
+        print(word)
+        if (len(word.strip()) == 0):
+            continue
+        txt.append(word.strip())
+    return txt
+
+
+def to_data(text: list):
+    data = {}
+    for i in range(len(text)):
+        if str(text[i]).isnumeric():
+            data['nim'] = text[i]
+            if text[i+1] is None:
+                continue
+            data['nama'] = text[i+1]
+            data['lahir'] = text[i+2]
+            data['prodi'] = text[i+3]
+            data['dusun'] = text[i+4]
+            data['jalan'] = text[i+5]
+            data['kota'] = text[i+6]
+    return data

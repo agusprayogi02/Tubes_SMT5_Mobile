@@ -1,18 +1,17 @@
-from flask import Flask, request, flash, redirect, url_for
+from flask import Flask, jsonify, request, flash, redirect, url_for
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.utils import secure_filename
 from helper import utils
 import cv2 as cv
-import pytesseract
 
 UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://user_pg:Akubisa-1@localhost/project"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://user_pg:Akubisa-1@localhost/ml_api"
 
 
 class Base(DeclarativeBase):
@@ -64,10 +63,15 @@ def download_file(name):
     img = utils.reflection(img)
 
     # Extract text
-    text = pytesseract.image_to_string(img, lang='ind')
+    text = utils.extract_text(img)
+    rest = utils.to_data(text)
+    if len(rest) == 0:
+        return jsonify({'error': 'Data not found'})
+    return jsonify(rest)
 
-    # Save text to file
-    with open('files/text.txt', 'w') as f:
-        f.write(text)
 
-    return redirect(url_for('upload_file'))
+with app.app_context():
+    db.create_all()
+
+if __name__ == "__main__":
+    app.run(debug=True)
