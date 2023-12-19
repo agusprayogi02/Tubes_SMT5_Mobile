@@ -17,9 +17,11 @@ class DetailKtpPage extends StatefulWidget {
   const DetailKtpPage({
     super.key,
     required this.nikResult,
+    required this.docKey,
   });
 
   final KtmModel nikResult;
+  final String docKey;
 
   @override
   State<DetailKtpPage> createState() => _DetailKtpPageState();
@@ -27,29 +29,24 @@ class DetailKtpPage extends StatefulWidget {
 
 class _DetailKtpPageState extends State<DetailKtpPage> {
   late final CollectionReference _alternatifRef;
-  late final SelectedLocalServices local;
+
   late final String _refKey;
   late KtmModel model;
 
   @override
   void initState() {
     super.initState();
-    local = Modular.get<SelectedLocalServices>();
-    _refKey = local.selected;
+    _refKey = context.get<SelectedLocalServices>().selected;
     model = widget.nikResult;
     _alternatifRef = FirebaseFirestore.instance.collection('$_refKey/alternatif');
   }
 
   Future<void> kirim() async {
     context.showLoadingIndicator();
-    String key = 16.generateRandomString;
-    if (local.selectedEdit.isNotEmpty) {
-      key = local.selectedEdit;
-    }
+    String key = widget.docKey.isEmpty ? 16.generateRandomString : widget.docKey;
 
     try {
       await _alternatifRef.doc(key).set(model.toJson());
-      await local.removeSelectedEdit();
       Modular.to.popUntil((p0) => p0.settings.name == AppRoutes.alternatifHome);
       context.showSnackbar(message: "Berhasil Membuat Alternatif!");
     } on firebase_core.FirebaseException catch (e) {
@@ -176,14 +173,23 @@ class _DetailKtpPageState extends State<DetailKtpPage> {
                     onPressed: () {
                       Modular.to.pop();
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.replay_rounded),
-                        6.horizontalSpaceRadius,
-                        const Text('Ulangi'),
-                      ],
-                    ),
+                    child: widget.docKey.isEmpty
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.replay_rounded),
+                              6.horizontalSpaceRadius,
+                              const Text('Ulangi'),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.arrow_back_ios_new_rounded),
+                              6.horizontalSpaceRadius,
+                              const Text('Kembali'),
+                            ],
+                          ),
                   ),
                 ),
                 12.horizontalSpaceRadius,

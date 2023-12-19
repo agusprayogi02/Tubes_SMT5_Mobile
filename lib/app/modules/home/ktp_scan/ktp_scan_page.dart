@@ -50,7 +50,13 @@ class _KtpScanPageState extends State<KtpScanPage> {
           }
           if (state is KtpScanLoaded) {
             context.hideLoading();
-            Modular.to.pushReplacementNamed(AppRoutes.ktpResultHome, arguments: state.item);
+            Modular.to.pushReplacementNamed(
+              AppRoutes.ktpResultHome,
+              arguments: {
+                'item': state.item,
+                'key': '',
+              },
+            );
             context.showSnackbar(message: "KTM Berhasil di scan");
           }
         },

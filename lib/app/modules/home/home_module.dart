@@ -33,8 +33,13 @@ class HomeModule extends Module {
   void routes(r) {
     r.child(AppRoutes.home, child: (context) => const HomePage());
     r.child(AppRoutes.ktpScanHome, child: (context) => const KtpScanPage());
-    r.child(AppRoutes.ktpResultHome,
-        child: (context) => DetailKtpPage(nikResult: r.args.data as KtmModel));
+    r.child(AppRoutes.ktpResultHome, child: (context) {
+      final args = r.args.data as Map<String, dynamic>;
+      return DetailKtpPage(
+        nikResult: args['item'] as KtmModel,
+        docKey: args['key'] as String,
+      );
+    });
     r.child(AppRoutes.kriteriaHome, child: (ctx) => const KriteriaPage());
     r.child(AppRoutes.alternatifHome, child: (ctx) => const AlternatifPage());
     r.child(AppRoutes.penilaianHome, child: (ctx) => PenilaianPage(altKey: r.args.data as String));

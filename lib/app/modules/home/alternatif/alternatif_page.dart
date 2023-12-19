@@ -172,7 +172,10 @@ class _AlternatifPageState extends State<AlternatifPage> {
             },
             onEdit: () async {
               await Modular.get<SelectedLocalServices>().setSelectedEdit(snapshot.id);
-              Modular.to.pushNamed(AppRoutes.ktpResultHome, arguments: data);
+              Modular.to.pushNamed(AppRoutes.ktpResultHome, arguments: {
+                'item': data,
+                'key': snapshot.id,
+              });
             },
             onTap: () async {
               await Modular.to.pushNamed(AppRoutes.penilaianHome, arguments: snapshot.id);
