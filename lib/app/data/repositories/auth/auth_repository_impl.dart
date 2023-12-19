@@ -47,7 +47,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
@@ -67,7 +68,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() => _auth.signOut();
 
   @override
-  ResultResponse<User> register(String name, String email, String password) async {
+  ResultResponse<User> register(
+      String name, String email, String password) async {
     try {
       final credential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -77,7 +79,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return Result.success(credential.user!);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        return Result.error(message: 'Password yang anda masukkan terlalu lemah!');
+        return Result.error(
+            message: 'Password yang anda masukkan terlalu lemah!');
       } else if (e.code == 'email-already-in-use') {
         return Result.error(message: 'Email sudah digunakan!');
       }

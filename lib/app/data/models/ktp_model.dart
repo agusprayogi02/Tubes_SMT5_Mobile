@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nik_validator/nik_validator.dart';
 
 class KtpModel extends Equatable {
   ///Nik number
@@ -145,26 +144,26 @@ class KtpModel extends Equatable {
     };
   }
 
-  factory KtpModel.fromScan(NIKModel item) {
-    return KtpModel(
-      nik: item.nik,
-      age: item.age,
-      ageDay: item.ageDay,
-      ageMonth: item.ageMonth,
-      ageYear: item.ageYear,
-      bornDate: item.bornDate,
-      city: item.city,
-      gender: item.gender,
-      nextBirthday: item.nextBirthday,
-      postalCode: item.postalCode,
-      province: item.province,
-      subdistrict: item.subdistrict,
-      uniqueCode: item.uniqueCode,
-      zodiac: item.zodiac,
-      filled: false,
-      nilai: 0,
-    );
-  }
+  // factory KtpModel.fromScan(NIKModel item) {
+  //   return KtpModel(
+  //     nik: item.nik,
+  //     age: item.age,
+  //     ageDay: item.ageDay,
+  //     ageMonth: item.ageMonth,
+  //     ageYear: item.ageYear,
+  //     bornDate: item.bornDate,
+  //     city: item.city,
+  //     gender: item.gender,
+  //     nextBirthday: item.nextBirthday,
+  //     postalCode: item.postalCode,
+  //     province: item.province,
+  //     subdistrict: item.subdistrict,
+  //     uniqueCode: item.uniqueCode,
+  //     zodiac: item.zodiac,
+  //     filled: false,
+  //     nilai: 0,
+  //   );
+  // }
 
   factory KtpModel.fromMap(Map<dynamic, dynamic> map) {
     return KtpModel(

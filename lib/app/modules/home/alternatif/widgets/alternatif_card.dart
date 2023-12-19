@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:penilaian/app/core/theme/theme.dart';
 import 'package:penilaian/app/core/widgets/images/image_with_loader.dart';
 import 'package:penilaian/app/data/extensions/extensions.dart';
-import 'package:penilaian/app/data/models/ktp_model.dart';
+import 'package:penilaian/app/data/models/ktm_model.dart';
 
 import '../../../../core/widgets/button/icon_rounded_button.dart';
 
@@ -17,7 +17,7 @@ class AlternatifCard extends StatelessWidget {
     this.onTap,
   });
 
-  final KtpModel data;
+  final KtmModel data;
   final int number;
   final VoidCallback? onDelete;
   final VoidCallback? onEdit;
@@ -34,7 +34,7 @@ class AlternatifCard extends StatelessWidget {
         bool delete = false;
         final snackbarController = ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Yakin Ingin Hapus Kriteria ${data.name}?'),
+            content: Text('Yakin Ingin Hapus Kriteria ${data.nama}?'),
             action: SnackBarAction(label: 'Hapus', onPressed: () => delete = true),
           ),
         );
@@ -87,7 +87,7 @@ class AlternatifCard extends StatelessWidget {
                     top: 12.r,
                     left: 0,
                     child: ImageWithLoader(
-                      imageUrl: data.photo ?? "https://picsum.photos/200/300",
+                      imageUrl: data.foto ?? "https://picsum.photos/200/300",
                       size: 45.r,
                       radius: 45.r,
                     ),
@@ -113,7 +113,7 @@ class AlternatifCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            data.name ?? "-",
+                            data.nama ?? "-",
                             style: AppStyles.text16PxBold.copyWith(color: ColorTheme.white),
                           ).expand(),
                           Text.rich(

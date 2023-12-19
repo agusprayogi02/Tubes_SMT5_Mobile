@@ -46,29 +46,29 @@ class _KtpScanPageState extends State<KtpScanPage> {
             context.showLoadingIndicator();
           }
           if (state is KtpScanError) {
-            context.showSnackbar(message: "NIK ditemukan", error: true, isPop: true);
+            context.showSnackbar(message: state.message, error: true, isPop: true);
           }
           if (state is KtpScanLoaded) {
             context.hideLoading();
             Modular.to.pushReplacementNamed(AppRoutes.ktpResultHome, arguments: state.item);
-            context.showSnackbar(message: "NIK ditemukan");
+            context.showSnackbar(message: "KTM Berhasil di scan");
           }
         },
         child: Scaffold(
           appBar: BaseAppBar(
-            title: "Scan KTP",
+            title: "Scan KTM",
             actions: [
               IconButton(
                 onPressed: () async {
                   final file = await storage.pickFile(
-                    extensions: ["jpg", "jpeg", "png"],
+                    extensions: ['png', 'jpg', 'jpeg'],
                   );
                   if (file != null) {
                     bloc.scanKtp(file.path, CardOverlay.byFormat(format), MediaQuery.of(context));
                   }
                 },
                 icon: const Icon(Icons.upload_file_rounded, color: ColorTheme.white),
-                tooltip: "Upload KTP",
+                tooltip: "Upload KTM",
               ),
             ],
           ),
@@ -95,7 +95,7 @@ class _KtpScanPageState extends State<KtpScanPage> {
                   },
                   info:
                       'Position your ID card within the rectangle and ensure the image is perfectly readable.',
-                  label: 'Scanning KTP',
+                  label: 'Scanning KTM',
                 );
               } else {
                 return const Align(

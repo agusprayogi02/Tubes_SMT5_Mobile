@@ -43,7 +43,8 @@ class CsvLoadCubit extends Cubit<CsvLoadState> {
         model = model.copyWith(
           name: data[0],
           w: num.parse(data[1].toString()),
-          isBenefit: (data[2].toString().toLowerCase() == 'cost') ? false : true,
+          isBenefit:
+              (data[2].toString().toLowerCase() == 'cost') ? false : true,
         );
         await kriteriaRef.doc().set(model.toMap());
       }

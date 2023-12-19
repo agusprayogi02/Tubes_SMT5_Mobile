@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:penilaian/app/data/services/local_services/flavor_local_services.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'empty_image.dart';
 
 class ImageWithLoader extends StatelessWidget {
-  const ImageWithLoader({
+  ImageWithLoader({
     super.key,
     required this.imageUrl,
     this.size = 100,
@@ -30,16 +31,21 @@ class ImageWithLoader extends StatelessWidget {
   final bool isBG;
   final BoxFit? fit;
   final BoxBorder? border;
+  final local = FlavorLocalServicesImpl();
 
   @override
   Widget build(BuildContext context) {
-    return imageUrl == ''
+    var image = imageUrl;
+    if (!image.contains('http') && imageUrl != '') {
+      image = local.baseUrl + image;
+    }
+    return image == ''
         ? EmptyImage(
             size: size,
             width: width ?? size,
           )
         : CachedNetworkImage(
-            imageUrl: imageUrl,
+            imageUrl: image,
             placeholder: (context, url) => Shimmer.fromColors(
               baseColor: Colors.grey[200]!,
               highlightColor: Colors.white,
@@ -53,8 +59,7 @@ class ImageWithLoader extends StatelessWidget {
               height: size,
               width: width ?? size,
               decoration: BoxDecoration(
-                borderRadius: borderRadius ??
-                    BorderRadius.circular(radius ?? (size / 10)),
+                borderRadius: borderRadius ?? BorderRadius.circular(radius ?? (size / 10)),
                 image: DecorationImage(
                   image: imageProvider,
                   fit: fit ?? BoxFit.cover,
@@ -69,8 +74,7 @@ class ImageWithLoader extends StatelessWidget {
                     height: size,
                     width: width ?? size,
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(radius ?? (size / 10)),
+                      borderRadius: BorderRadius.circular(radius ?? (size / 10)),
                       color: Colors.white,
                       boxShadow: boxShadow,
                     ),

@@ -2,7 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:penilaian/app/core/module/application_module.dart';
 import 'package:penilaian/app/core/storage/storage_interface.dart';
 import 'package:penilaian/app/core/storage/storage_path.dart';
-import 'package:penilaian/app/data/models/ktp_model.dart';
+import 'package:penilaian/app/data/models/ktm_model.dart';
 import 'package:penilaian/app/data/services/local_services/selected_local_services.dart';
 import 'package:penilaian/app/modules/home/alternatif/alternatif_page.dart';
 import 'package:penilaian/app/modules/home/detail_ktp/detail_ktp_page.dart';
@@ -34,7 +34,7 @@ class HomeModule extends Module {
     r.child(AppRoutes.home, child: (context) => const HomePage());
     r.child(AppRoutes.ktpScanHome, child: (context) => const KtpScanPage());
     r.child(AppRoutes.ktpResultHome,
-        child: (context) => DetailKtpPage(nikResult: r.args.data as KtpModel));
+        child: (context) => DetailKtpPage(nikResult: r.args.data as KtmModel));
     r.child(AppRoutes.kriteriaHome, child: (ctx) => const KriteriaPage());
     r.child(AppRoutes.alternatifHome, child: (ctx) => const AlternatifPage());
     r.child(AppRoutes.penilaianHome, child: (ctx) => PenilaianPage(altKey: r.args.data as String));

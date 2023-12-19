@@ -1,17 +1,13 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:penilaian/app/core/helpers/string_helper.dart';
 import 'package:penilaian/app/core/theme/theme.dart';
 import 'package:penilaian/app/core/widgets/images/image_with_loader.dart';
 import 'package:penilaian/app/core/widgets/text/warning_text.dart';
 import 'package:penilaian/app/data/extensions/extensions.dart';
-import 'package:penilaian/app/data/models/ktp_model.dart';
+import 'package:penilaian/app/data/models/ktm_model.dart';
 import 'package:penilaian/app/data/services/local_services/selected_local_services.dart';
 import 'package:penilaian/app/routes/app_routes.dart';
 
@@ -23,22 +19,22 @@ class DetailKtpPage extends StatefulWidget {
     required this.nikResult,
   });
 
-  final KtpModel nikResult;
+  final KtmModel nikResult;
 
   @override
   State<DetailKtpPage> createState() => _DetailKtpPageState();
 }
 
 class _DetailKtpPageState extends State<DetailKtpPage> {
-  final storageRef = FirebaseStorage.instance.ref(StringHelper.imageStorage);
   late final CollectionReference _alternatifRef;
-  final local = Modular.get<SelectedLocalServices>();
+  late final SelectedLocalServices local;
   late final String _refKey;
-  late KtpModel model;
+  late KtmModel model;
 
   @override
   void initState() {
     super.initState();
+    local = Modular.get<SelectedLocalServices>();
     _refKey = local.selected;
     model = widget.nikResult;
     _alternatifRef = FirebaseFirestore.instance.collection('$_refKey/alternatif');
@@ -46,27 +42,13 @@ class _DetailKtpPageState extends State<DetailKtpPage> {
 
   Future<void> kirim() async {
     context.showLoadingIndicator();
-    final filePath = widget.nikResult.photo!;
-    final file = File(filePath);
     String key = 16.generateRandomString;
     if (local.selectedEdit.isNotEmpty) {
       key = local.selectedEdit;
     }
 
-    // Create the file metadata
-    final metadata = SettableMetadata(contentType: "image/jpeg");
-
-    // Upload file and metadata to the path 'images/mountains.jpg'
-    final uploadTask = storageRef.child("$key.jpg");
-
     try {
-      if (!filePath.contains('firebasestorage.googleapis.com')) {
-        final hasil = await uploadTask.putFile(file, metadata);
-        final url = await hasil.ref.getDownloadURL();
-        model = model.copyWith(photo: () => url);
-      }
-
-      await _alternatifRef.doc(key).set(model.toMap());
+      await _alternatifRef.doc(key).set(model.toJson());
       await local.removeSelectedEdit();
       Modular.to.popUntil((p0) => p0.settings.name == AppRoutes.alternatifHome);
       context.showSnackbar(message: "Berhasil Membuat Alternatif!");
@@ -79,7 +61,7 @@ class _DetailKtpPageState extends State<DetailKtpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail KTP'),
+        title: const Text('Detail KTM'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -99,124 +81,75 @@ class _DetailKtpPageState extends State<DetailKtpPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (widget.nikResult.photo != null)
-                    Center(
-                      child: widget.nikResult.photo!.contains('firebase')
-                          ? ImageWithLoader(
-                              imageUrl: widget.nikResult.photo!,
-                              width: 200,
-                              fit: BoxFit.fitWidth,
-                            )
-                          : Image.file(
-                              File(widget.nikResult.photo!),
-                            ),
+                  Center(
+                    child: ImageWithLoader(
+                      imageUrl: widget.nikResult.foto,
+                      width: 200,
+                      size: 200,
+                      fit: BoxFit.fitWidth,
                     ),
+                  ),
                   16.verticalSpacingRadius,
                   const Divider(color: Colors.black),
                   TextResultCard(
                     title: "NIK",
-                    value: widget.nikResult.nik!,
+                    value: widget.nikResult.nim,
                     onChanged: (x) {
-                      model = model.copyWith(nik: () => x);
+                      model = model.copyWith(nim: x);
                       setState(() {});
                     },
                   ),
                   const Divider(color: Colors.black),
                   TextResultCard(
                     title: "Nama",
-                    value: widget.nikResult.name!,
+                    value: widget.nikResult.nama,
                     onChanged: (x) {
-                      model = model.copyWith(name: () => x);
+                      model = model.copyWith(nama: x);
                       setState(() {});
                     },
                   ),
                   const Divider(color: Colors.black),
                   TextResultCard(
-                    title: "Kode Unik",
-                    value: widget.nikResult.uniqueCode!,
+                    title: "TTL",
+                    value: widget.nikResult.lahir,
                     onChanged: (x) {
-                      model = model.copyWith(uniqueCode: () => x);
+                      model = model.copyWith(lahir: x);
                       setState(() {});
                     },
                   ),
                   const Divider(color: Colors.black),
                   TextResultCard(
-                    title: "Jenis Kelamin",
-                    value: widget.nikResult.gender!,
+                    title: "Prodi",
+                    value: widget.nikResult.prodi,
                     onChanged: (x) {
-                      model = model.copyWith(gender: () => x);
+                      model = model.copyWith(prodi: x);
                       setState(() {});
                     },
                   ),
                   const Divider(color: Colors.black),
                   TextResultCard(
-                    title: "Tanggal Lahir",
-                    value: widget.nikResult.bornDate!,
+                    title: "Jalan",
+                    value: widget.nikResult.jalan,
                     onChanged: (x) {
-                      model = model.copyWith(bornDate: () => x);
+                      model = model.copyWith(jalan: x);
                       setState(() {});
                     },
                   ),
                   const Divider(color: Colors.black),
                   TextResultCard(
-                    title: "Usia",
-                    value: widget.nikResult.age!,
+                    title: "Dusun",
+                    value: widget.nikResult.dusun,
                     onChanged: (x) {
-                      model = model.copyWith(age: () => x);
-                      setState(() {});
-                    },
-                  ),
-                  const Divider(color: Colors.black),
-                  TextResultCard(
-                    title: "Ulang Tahun",
-                    value: widget.nikResult.nextBirthday!,
-                    onChanged: (x) {
-                      model = model.copyWith(nextBirthday: () => x);
-                      setState(() {});
-                    },
-                  ),
-                  const Divider(color: Colors.black),
-                  TextResultCard(
-                    title: "Zodiak",
-                    value: widget.nikResult.zodiac!,
-                    onChanged: (x) {
-                      model = model.copyWith(zodiac: () => x);
-                      setState(() {});
-                    },
-                  ),
-                  const Divider(color: Colors.black),
-                  TextResultCard(
-                    title: "Provinsi",
-                    value: widget.nikResult.province!,
-                    onChanged: (x) {
-                      model = model.copyWith(province: () => x);
+                      model = model.copyWith(dusun: x);
                       setState(() {});
                     },
                   ),
                   const Divider(color: Colors.black),
                   TextResultCard(
                     title: "Kota/Kabupaten",
-                    value: widget.nikResult.city!,
+                    value: widget.nikResult.kota,
                     onChanged: (x) {
-                      model = model.copyWith(city: () => x);
-                      setState(() {});
-                    },
-                  ),
-                  const Divider(color: Colors.black),
-                  TextResultCard(
-                    title: "Kecamatan",
-                    value: widget.nikResult.subdistrict!,
-                    onChanged: (x) {
-                      model = model.copyWith(subdistrict: () => x);
-                      setState(() {});
-                    },
-                  ),
-                  const Divider(color: Colors.black),
-                  TextResultCard(
-                    title: "Kode Pos",
-                    value: widget.nikResult.postalCode!,
-                    onChanged: (x) {
-                      model = model.copyWith(postalCode: () => x);
+                      model = model.copyWith(kota: x);
                       setState(() {});
                     },
                   ),

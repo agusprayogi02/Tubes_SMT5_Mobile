@@ -107,7 +107,7 @@ class HomeCard extends StatelessWidget {
                   style: AppStyles.text12Px.copyWith(
                     color: Colors.white,
                   ),
-                ).expand(flex: 2),
+                ).expand(),
                 8.horizontalSpaceRadius,
                 OutlinedButton(
                   onPressed: onTap,
@@ -116,9 +116,10 @@ class HomeCard extends StatelessWidget {
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Colors.white, width: 3),
                     disabledForegroundColor: Colors.grey,
+                    padding: EdgeInsets.zero,
                   ),
                   child: const Text('Lihat', style: TextStyle(color: Colors.white)),
-                ).expand()
+                ).sized(w: .2.sw)
               ],
             ),
           ],

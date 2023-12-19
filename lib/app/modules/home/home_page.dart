@@ -71,7 +71,8 @@ class _HomePageState extends State<HomePage> {
         onEmpty: const NoFoundWidget(),
         isLive: true,
         itemBuilder: (context, snapshot, i) {
-          final data = DataModel.fromMap(snapshot.data() as Map<Object?, Object?>);
+          final data =
+              DataModel.fromMap(snapshot.data() as Map<Object?, Object?>);
           return HomeCard(
             title: data.name,
             subTitle: data.deskripsi,
@@ -92,15 +93,19 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           TextField(
-                            decoration: GenerateTheme.inputDecoration("Nama Jenis"),
-                            style: AppStyles.text16Px.copyWith(color: ColorTheme.black),
+                            decoration:
+                                GenerateTheme.inputDecoration("Nama Jenis"),
+                            style: AppStyles.text16Px
+                                .copyWith(color: ColorTheme.black),
                             controller: nameCont,
                           ),
                           16.verticalSpacingRadius,
                           TextField(
                             maxLines: 4,
-                            decoration: GenerateTheme.inputDecoration("Deskripsi"),
-                            style: AppStyles.text16Px.copyWith(color: ColorTheme.black),
+                            decoration:
+                                GenerateTheme.inputDecoration("Deskripsi"),
+                            style: AppStyles.text16Px
+                                .copyWith(color: ColorTheme.black),
                             controller: textCont,
                           ),
                         ],
@@ -134,7 +139,8 @@ class _HomePageState extends State<HomePage> {
             },
             onTap: () async {
               final key = snapshot.id;
-              await Modular.get<SelectedLocalServices>().setSelected("/${user.uid}/$key");
+              await Modular.get<SelectedLocalServices>()
+                  .setSelected("/${user.uid}/$key");
               Modular.to.pushNamed(AppRoutes.kriteriaHome);
             },
           ).py(8);
@@ -156,14 +162,16 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       TextField(
                         decoration: GenerateTheme.inputDecoration("Nama Jenis"),
-                        style: AppStyles.text16Px.copyWith(color: ColorTheme.black),
+                        style: AppStyles.text16Px
+                            .copyWith(color: ColorTheme.black),
                         controller: nameCont,
                       ),
                       16.verticalSpacingRadius,
                       TextField(
                         maxLines: 4,
                         decoration: GenerateTheme.inputDecoration("Deskripsi"),
-                        style: AppStyles.text16Px.copyWith(color: ColorTheme.black),
+                        style: AppStyles.text16Px
+                            .copyWith(color: ColorTheme.black),
                         controller: textCont,
                       ),
                     ],
@@ -172,8 +180,12 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   ElevatedButton(
                     onPressed: () {
-                      final data = DataModel.initial(nameCont.text, textCont.text, 6.randColor);
-                      _penilaianRef.doc().set(data.toMap()).then((value) => context.to.pop());
+                      final data = DataModel.initial(
+                          nameCont.text, textCont.text, 6.randColor);
+                      _penilaianRef
+                          .doc()
+                          .set(data.toMap())
+                          .then((value) => context.to.pop());
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,

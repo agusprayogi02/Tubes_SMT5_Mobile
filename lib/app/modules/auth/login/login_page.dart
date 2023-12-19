@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:penilaian/app/core/widgets/input/password_input.dart';
 import 'package:penilaian/app/core/widgets/input/text_input_component.dart';
@@ -28,7 +27,13 @@ class _LoginPageState extends State<LoginPage> {
     'password': FormControl(validators: [Validators.required]),
   });
 
-  final _cubit = Modular.get<AuthCubit>();
+  late final AuthCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.get<AuthCubit>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +41,16 @@ class _LoginPageState extends State<LoginPage> {
       create: (context) => _cubit,
       child: BaseScaffold(
         body: BlocListener<AuthCubit, AuthState>(
+          bloc: _cubit,
           listener: (context, state) {
             if (state is AuthSuccess) {
-              context.to
-                  .pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
+              context.to.pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
               context.showSnackbar(message: 'Berhasil Masuk!');
-            } else if (state is AuthError) {
-              context.showSnackbar(
-                  message: state.message, error: true, isPop: true);
-            } else if (state is AuthLoading) {
+            }
+            if (state is AuthError) {
+              context.showSnackbar(message: state.message, error: true, isPop: true);
+            }
+            if (state is AuthLoading) {
               context.showLoadingIndicator();
             }
           },
@@ -118,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                     20.verticalSpacingRadius,
                     InkWell(
                       onTap: () {
-                        _cubit.loginGoogle();
+                        context.read<AuthCubit>().loginGoogle();
                       },
                       child: Container(
                         width: 54,
@@ -141,11 +147,10 @@ class _LoginPageState extends State<LoginPage> {
                         TextSpan(
                           text: ' Daftar',
                           style: const TextStyle(
-                              color: ColorTheme.statusGreen,
-                              fontWeight: FontWeight.bold),
+                              color: ColorTheme.statusGreen, fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Modular.to.pushNamed(AppRoutes.register);
+                              context.to.pushNamed(AppRoutes.register);
                             },
                         ),
                       ]),

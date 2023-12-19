@@ -351,7 +351,8 @@ class CustomTextTheme {
         color: ColorTheme.neutral[800],
         fontWeight: FontWeight.bold,
       );
-  static TextStyle get caption => AppStyles.text13Px.copyWith(color: ColorTheme.black);
+  static TextStyle get caption =>
+      AppStyles.text13Px.copyWith(color: ColorTheme.black);
   static TextStyle get footer =>
       GoogleFonts.workSans(fontSize: 10.spMin, color: ColorTheme.neutral[800]);
   static TextStyle get subheading =>
@@ -370,7 +371,9 @@ class CustomTextTheme {
   static TextStyle get heading3 =>
       GoogleFonts.workSans(fontSize: 28.spMin, color: ColorTheme.neutral[800]);
   static TextStyle get heading4 => GoogleFonts.workSans(
-      fontSize: 24.spMin, color: ColorTheme.neutral[800], fontWeight: FontWeight.bold);
+      fontSize: 24.spMin,
+      color: ColorTheme.neutral[800],
+      fontWeight: FontWeight.bold);
   static TextStyle get heading5 =>
       GoogleFonts.workSans(fontSize: 20.spMin, color: ColorTheme.neutral[800]);
   static TextStyle get heading6 =>

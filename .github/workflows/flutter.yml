@@ -48,22 +48,19 @@ jobs:
           overwrite: true
           encoded: true
 
-      - name: Build APK Tentu Bisa
-        run: flutter build apk --release lib/main_bisa.dart --flavor bisa --no-tree-shake-icons
+      # - name: Build APK Tentu Bisa
+      #   run: flutter build apk --release lib/main_bisa.dart --flavor bisa --no-tree-shake-icons
 
-      - name: move APK file Develop
-        run: mv build/app/outputs/flutter-apk/app-bisa-release.apk app-release.apk
-      #       - name: Archive files
-      #         # run: cp login.json release/login.json
-      #         run: zip -r app.zip app-release.apk
+      # - name: move APK file Develop
+      #   run: mv build/app/outputs/flutter-apk/app-bisa-release.apk app-release.apk
 
-      - name: Upload to gdrive Develop
-        uses: agusprayogi02/auto-upload-gdrive@v1.0.1
-        with:
-          credentials: ${{ secrets.GOOGLE_DRIVE_SERVICE_ACCOUNT }}
-          filename: app-release.apk
-          mimeType: "application/vnd.android.package-archive"
-          # filename: release/login.json
-          folderId: 1wm6mcU9uUz195t7V85kTJaPvG1Kjpm2g
-          overwrite: true
-          encoded: true
+      # - name: Upload to gdrive Develop
+      #   uses: agusprayogi02/auto-upload-gdrive@v1.0.1
+      #   with:
+      #     credentials: ${{ secrets.GOOGLE_DRIVE_SERVICE_ACCOUNT }}
+      #     filename: app-release.apk
+      #     mimeType: "application/vnd.android.package-archive"
+      #     # filename: release/login.json
+      #     folderId: 1wm6mcU9uUz195t7V85kTJaPvG1Kjpm2g
+      #     overwrite: true
+      #     encoded: true

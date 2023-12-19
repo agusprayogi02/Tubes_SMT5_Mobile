@@ -29,7 +29,8 @@ class PenilaianFormCard extends StatelessWidget {
               ),
               TextSpan(
                 text: "*",
-                style: AppStyles.text16PxSemiBold.copyWith(color: ColorTheme.red),
+                style:
+                    AppStyles.text16PxSemiBold.copyWith(color: ColorTheme.red),
               ),
             ],
           ),

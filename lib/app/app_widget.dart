@@ -1,3 +1,4 @@
+import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -76,6 +77,8 @@ class _AppWidgetState extends State<AppWidget> {
               scaffoldMessengerKey: messengerKey,
               title: local.name,
               theme: colorTheme,
+              locale: DevicePreview.locale(context),
+              builder: DevicePreview.appBuilder,
               routeInformationParser: Modular.routeInformationParser,
               routerDelegate: Modular.routerDelegate,
             );

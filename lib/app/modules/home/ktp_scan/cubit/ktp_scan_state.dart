@@ -7,7 +7,7 @@ final class KtpScanInitial extends KtpScanState {}
 final class KtpScanLoading extends KtpScanState {}
 
 final class KtpScanLoaded extends KtpScanState {
-  final KtpModel item;
+  final KtmModel item;
 
   KtpScanLoaded(this.item);
 }

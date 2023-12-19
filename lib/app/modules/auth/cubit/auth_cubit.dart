@@ -12,6 +12,7 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
   Future<void> loginEmail(Map<String, dynamic> params) async {
+    emit(AuthLoading());
     final param = LoginWithEmailParams.fromMap(params);
     final rest = await LoginWithEmail().call(param);
     rest.when(
@@ -25,6 +26,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> loginGoogle() async {
+    emit(AuthLoading());
     final rest = await LoginWithGoogleUseCase().call(NoParams());
     await rest.when(
       success: (data) async {
@@ -37,6 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> registerEmail(Map<String, dynamic> params) async {
+    emit(AuthLoading());
     final param = RegisterWithEmailParams.fromMap(params);
     final rest = await RegisterWithEmail().call(param);
     rest.when(

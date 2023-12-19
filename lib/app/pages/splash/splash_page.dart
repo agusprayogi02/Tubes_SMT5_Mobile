@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,30 +28,49 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _init();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SessionCubit, SessionState>(
-      listener: (context, state) {
-        if (state is SessionReadyState) {
-          context.to.pushReplacementNamed(AppRoutes.home);
-        } else {
-          context.to.pushReplacementNamed(AppRoutes.login);
+    return FutureBuilder(
+      future: FirebaseFirestore.instance.collection('/base_url').doc('URLKU').get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          local.setBaseUrl(snapshot.data!.data()?['url']);
+          _init();
+          return BlocListener<SessionCubit, SessionState>(
+            listener: (context, state) {
+              if (state is SessionReadyState) {
+                context.to.pushReplacementNamed(AppRoutes.home);
+              } else {
+                context.to.pushReplacementNamed(AppRoutes.login);
+              }
+            },
+            child: Scaffold(
+              backgroundColor: ColorTheme.primary,
+              body: SafeArea(
+                child: Center(
+                  child: Image.asset(
+                    local.image,
+                    width: 250.r,
+                  ),
+                ),
+              ),
+            ),
+          );
         }
-      },
-      child: Scaffold(
-        backgroundColor: ColorTheme.primary,
-        body: SafeArea(
-          child: Center(
-            child: Image.asset(
-              local.image,
-              width: 250.r,
+        return Scaffold(
+          backgroundColor: ColorTheme.primary,
+          body: SafeArea(
+            child: Center(
+              child: Image.asset(
+                local.image,
+                width: 250.r,
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

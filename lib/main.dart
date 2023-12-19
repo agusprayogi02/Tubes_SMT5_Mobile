@@ -1,3 +1,4 @@
+import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -30,9 +31,12 @@ Future<void> main() async {
   await local.setName("Tentu Bisa");
 
   runApp(
-    ModularApp(
-      module: AppModule(),
-      child: const AppWidget(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => ModularApp(
+        module: AppModule(),
+        child: const AppWidget(),
+      ),
     ),
   );
 }

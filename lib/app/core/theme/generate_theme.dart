@@ -23,7 +23,8 @@ class GenerateTheme {
         ),
       );
 
-  static InputDecoration inputDecorationIcon(String hint, Widget? prefix, Widget? suffix) =>
+  static InputDecoration inputDecorationIcon(
+          String hint, Widget? prefix, Widget? suffix) =>
       InputDecoration(
         contentPadding: 12.all,
         fillColor: ColorTheme.white,

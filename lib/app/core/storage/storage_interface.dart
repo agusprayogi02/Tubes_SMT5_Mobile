@@ -41,7 +41,8 @@ class Storage extends StorageInterface {
   }) : super();
 
   @override
-  Future<File?> download(String url, {bool isTemp = false, String? fileName}) async {
+  Future<File?> download(String url,
+      {bool isTemp = false, String? fileName}) async {
     try {
       // Download file from uri with dio return File
       String fName = fileName ?? p.basenameWithoutExtension(url);

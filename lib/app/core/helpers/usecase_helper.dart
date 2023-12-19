@@ -24,7 +24,8 @@ class PaginateParams extends Equatable {
   final String? filter;
   final String? search;
 
-  const PaginateParams({this.page = 1, this.limit = 30, this.filter, this.search});
+  const PaginateParams(
+      {this.page = 1, this.limit = 30, this.filter, this.search});
 
   @override
   List<Object?> get props => [page, limit, filter];

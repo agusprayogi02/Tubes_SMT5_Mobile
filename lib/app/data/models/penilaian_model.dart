@@ -23,7 +23,8 @@ class PenilaianModel extends Equatable {
           : DateTime.parse(json['created_at'] as String),
     );
   }
-  factory PenilaianModel.initial(String alternatifId, String kriteriaId, double nilai) {
+  factory PenilaianModel.initial(
+      String alternatifId, String kriteriaId, double nilai) {
     return PenilaianModel(
       alternatifId: alternatifId,
       kriteriaId: kriteriaId,

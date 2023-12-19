@@ -79,7 +79,8 @@ class _FlutterCameraOverlayState extends State<CameraOverlayWidget> {
       return loadingWidget;
     }
 
-    controller.setFlashMode(widget.flash == true ? FlashMode.auto : FlashMode.off);
+    controller
+        .setFlashMode(widget.flash == true ? FlashMode.auto : FlashMode.off);
     return Stack(
       alignment: Alignment.bottomCenter,
       fit: StackFit.expand,
@@ -90,7 +91,8 @@ class _FlutterCameraOverlayState extends State<CameraOverlayWidget> {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-                margin: widget.infoMargin ?? const EdgeInsets.only(top: 100, left: 20, right: 20),
+                margin: widget.infoMargin ??
+                    const EdgeInsets.only(top: 100, left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -98,7 +100,9 @@ class _FlutterCameraOverlayState extends State<CameraOverlayWidget> {
                       Text(
                         widget.label!,
                         style: const TextStyle(
-                            color: Colors.white, fontSize: 24, fontWeight: FontWeight.w700),
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700),
                       ),
                     if (widget.info != null)
                       Flexible(
@@ -143,7 +147,9 @@ class _FlutterCameraOverlayState extends State<CameraOverlayWidget> {
                     setState(() {});
                   },
                   icon: Icon(
-                    controller.value.isPreviewPaused ? Icons.play_circle_rounded : Icons.camera,
+                    controller.value.isPreviewPaused
+                        ? Icons.play_circle_rounded
+                        : Icons.camera,
                   ),
                   iconSize: 72,
                 ),

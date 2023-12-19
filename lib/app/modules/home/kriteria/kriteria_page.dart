@@ -52,10 +52,12 @@ class _KriteriaPageState extends State<KriteriaPage> {
             BlocListener<CsvLoadCubit, CsvLoadState>(
               listener: (context, state) {
                 if (state is CsvLoadSuccess) {
-                  context.showSnackbar(message: "Berhasil Import Data", isPop: true);
+                  context.showSnackbar(
+                      message: "Berhasil Import Data", isPop: true);
                 }
                 if (state is CsvLoadError) {
-                  context.showSnackbar(message: state.message, error: true, isPop: true);
+                  context.showSnackbar(
+                      message: state.message, error: true, isPop: true);
                 }
                 if (state is CsvLoadLoading) {
                   context.showLoadingIndicator();
@@ -63,7 +65,9 @@ class _KriteriaPageState extends State<KriteriaPage> {
               },
               child: IconButton(
                 onPressed: () {
-                  context.get<StorageInterface>().pickFile(extensions: ['csv']).then((value) {
+                  context
+                      .get<StorageInterface>()
+                      .pickFile(extensions: ['csv']).then((value) {
                     if (value != null) {
                       csvCubit.loadKriteria(value.path, '$_refKey/kriteria');
                     }
@@ -88,7 +92,8 @@ class _KriteriaPageState extends State<KriteriaPage> {
               isLive: true,
               onEmpty: const NoFoundWidget(),
               itemBuilder: (context, snapshot, i) {
-                final data = KriteriaModel.fromMap(snapshot.data() as Map<Object?, Object?>);
+                final data = KriteriaModel.fromMap(
+                    snapshot.data() as Map<Object?, Object?>);
                 return KriteriaFormCard(
                   number: i + 1,
                   name: data.name,
@@ -106,9 +111,8 @@ class _KriteriaPageState extends State<KriteriaPage> {
                     await _kriteriaRef.doc(snapshot.id).delete();
                   },
                   onTap: () {
-                    _kriteriaRef
-                        .doc(snapshot.id)
-                        .update(data.copyWith(isBenefit: !data.isBenefit).toMap());
+                    _kriteriaRef.doc(snapshot.id).update(
+                        data.copyWith(isBenefit: !data.isBenefit).toMap());
                   },
                 ).py(8);
               },

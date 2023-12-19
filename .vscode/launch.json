@@ -10,7 +10,7 @@
                 "--flavor",
                 "bantu",
                 "-t",
-                "lib/main_bantu.dart"
+                "lib/main.dart"
             ]
         },
         {

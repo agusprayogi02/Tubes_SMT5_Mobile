@@ -13,11 +13,13 @@ class NoFoundWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.info_outline_rounded, size: 64.r, color: ColorTheme.greyScale50),
+          Icon(Icons.info_outline_rounded,
+              size: 64.r, color: ColorTheme.greyScale50),
           12.verticalSpacingRadius,
           Text(
             "Data kosong",
-            style: AppStyles.text16PxMedium.copyWith(color: ColorTheme.greyScale50),
+            style: AppStyles.text16PxMedium
+                .copyWith(color: ColorTheme.greyScale50),
           ),
         ],
       ),

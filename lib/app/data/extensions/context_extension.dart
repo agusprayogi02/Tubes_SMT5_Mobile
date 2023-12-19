@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart' show IModularNavigator, Modular;
+import 'package:flutter_modular/flutter_modular.dart'
+    show IModularNavigator, Modular;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:penilaian/app/core/theme/theme.dart';
 import 'package:penilaian/app/core/widgets/snackbar/top_snackbar.dart';
@@ -108,7 +109,9 @@ extension BuildContextX on BuildContext {
           shape: RoundedRectangleBorder(
             borderRadius: 10.rounded,
           ),
-          backgroundColor: error ? ColorTheme.statusLightRed : ColorTheme.brandBackgroundLight,
+          backgroundColor: error
+              ? ColorTheme.statusLightRed
+              : ColorTheme.brandBackgroundLight,
           padding: EdgeInsets.zero,
           elevation: 0,
           duration: const Duration(seconds: 5),

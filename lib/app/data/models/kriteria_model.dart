@@ -41,8 +41,9 @@ class KriteriaModel extends Equatable {
       name: map['name'] ?? '',
       w: map['w'] ?? 0,
       isBenefit: map['is_benefit'] ?? false,
-      createdAt:
-          map['created_at'] == null ? DateTime.now() : DateTime.parse(map['created_at'] as String),
+      createdAt: map['created_at'] == null
+          ? DateTime.now()
+          : DateTime.parse(map['created_at'] as String),
     );
   }
 

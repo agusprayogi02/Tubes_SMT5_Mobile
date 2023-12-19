@@ -36,8 +36,10 @@ class _WinnerPageState extends State<WinnerPage> {
   void initState() {
     super.initState();
     _refKey = Modular.get<SelectedLocalServices>().selected.split('/');
-    _alternatifRef = FirebaseFirestore.instance.collection("${_refKey.join('/')}/alternatif");
-    _dataRef = FirebaseFirestore.instance.collection(_refKey[1]).doc(_refKey.last);
+    _alternatifRef = FirebaseFirestore.instance
+        .collection("${_refKey.join('/')}/alternatif");
+    _dataRef =
+        FirebaseFirestore.instance.collection(_refKey[1]).doc(_refKey.last);
   }
 
   @override
@@ -90,7 +92,8 @@ class _WinnerPageState extends State<WinnerPage> {
                       alignment: Alignment.center,
                       child: Text(
                         (i + 1).toString(),
-                        style: AppStyles.text18PxBold.copyWith(color: ColorTheme.white),
+                        style: AppStyles.text18PxBold
+                            .copyWith(color: ColorTheme.white),
                       ),
                     ),
                     8.horizontalSpaceRadius,
@@ -101,13 +104,15 @@ class _WinnerPageState extends State<WinnerPage> {
                           height: 75.r,
                           width: 24.r,
                           margin: EdgeInsets.only(left: 22.r),
-                          decoration: const BoxDecoration(color: ColorTheme.primary),
+                          decoration:
+                              const BoxDecoration(color: ColorTheme.primary),
                         ),
                         Positioned(
                           top: 9.r,
                           left: 0,
                           child: ImageWithLoader(
-                            imageUrl: data[i].photo ?? "https://picsum.photos/200/300",
+                            imageUrl: data[i].photo ??
+                                "https://picsum.photos/200/300",
                             size: 45.r,
                             radius: 45.r,
                           ),
@@ -134,7 +139,8 @@ class _WinnerPageState extends State<WinnerPage> {
                               children: [
                                 Text(
                                   data[i].name ?? "-",
-                                  style: AppStyles.text16PxBold.copyWith(color: ColorTheme.white),
+                                  style: AppStyles.text16PxBold
+                                      .copyWith(color: ColorTheme.white),
                                 ).expand(),
                                 Text.rich(
                                   TextSpan(
@@ -148,7 +154,8 @@ class _WinnerPageState extends State<WinnerPage> {
                                       )
                                     ],
                                   ),
-                                  style: AppStyles.text14PxMedium.copyWith(color: ColorTheme.white),
+                                  style: AppStyles.text14PxMedium
+                                      .copyWith(color: ColorTheme.white),
                                 )
                               ],
                             ).expand(),
@@ -171,17 +178,22 @@ class _WinnerPageState extends State<WinnerPage> {
               final data = value.data() as Map<Object?, dynamic>;
               final model = DataModel.fromMap(data);
               final List<KtpModel> list = [];
-              final alternatif = await _alternatifRef.orderBy('nilai', descending: true).get();
+              final alternatif =
+                  await _alternatifRef.orderBy('nilai', descending: true).get();
               for (var e in alternatif.docs) {
                 list.add(KtpModel.fromMap(e.data() as Map<Object?, Object?>));
               }
               // print(list);
-              final bytes = await PdfHelper.generateDocument(PdfPageFormat.a4, model, list);
-              final appDocPath = (await getApplicationDocumentsDirectory()).path;
-              final file = File('$appDocPath/document-${12.generateRandomString}.pdf');
+              final bytes = await PdfHelper.generateDocument(
+                  PdfPageFormat.a4, model, list);
+              final appDocPath =
+                  (await getApplicationDocumentsDirectory()).path;
+              final file =
+                  File('$appDocPath/document-${12.generateRandomString}.pdf');
               print('Save as file ${file.path} ...');
               await file.writeAsBytes(bytes);
-              final rest = await Share.shareXFiles([XFile(file.path)], text: 'Simpan PDF');
+              final rest = await Share.shareXFiles([XFile(file.path)],
+                  text: 'Simpan PDF');
               if (rest.status == ShareResultStatus.dismissed) {
                 //   // await OpenFile.open(file.path);
                 await OpenFilex.open(file.path);

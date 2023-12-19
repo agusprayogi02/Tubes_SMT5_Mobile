@@ -45,7 +45,9 @@ class _PenilaianPageState extends State<PenilaianPage> {
         title: 'Penilaian',
       ),
       body: FutureBuilder(
-        future: _penilaianRef.where('alternatif_id', isEqualTo: widget.altKey).get(),
+        future: _penilaianRef
+            .where('alternatif_id', isEqualTo: widget.altKey)
+            .get(),
         builder: (context, snapshot) {
           final Map<String, num> inputs = {};
           if (snapshot.hasData) {
@@ -61,14 +63,18 @@ class _PenilaianPageState extends State<PenilaianPage> {
               query: _kriteriaRef.orderBy('created_at'),
               onEmpty: const NoFoundWidget(),
               itemBuilder: (context, snap, i) {
-                final data = KriteriaModel.fromMap(snap.data() as Map<Object?, Object?>);
+                final data =
+                    KriteriaModel.fromMap(snap.data() as Map<Object?, Object?>);
                 return PenilaianFormCard(
-                  label: """${data.name} (${data.isBenefit ? 'Benefit' : 'Cost'})""",
+                  label:
+                      """${data.name} (${data.isBenefit ? 'Benefit' : 'Cost'})""",
                   value: inputs[widget.altKey + snap.id].toString(),
                   onChanged: (value) {
-                    PenilaianModel model =
-                        PenilaianModel.initial(widget.altKey, snap.id, double.tryParse(value) ?? 0);
-                    _penilaianRef.doc(widget.altKey + snap.id).set(model.toJson());
+                    PenilaianModel model = PenilaianModel.initial(
+                        widget.altKey, snap.id, double.tryParse(value) ?? 0);
+                    _penilaianRef
+                        .doc(widget.altKey + snap.id)
+                        .set(model.toJson());
                   },
                 );
               },

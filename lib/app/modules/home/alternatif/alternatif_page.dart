@@ -1,17 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:penilaian/app/core/helpers/string_helper.dart';
 import 'package:penilaian/app/core/theme/theme.dart';
 import 'package:penilaian/app/core/widgets/base/base_app_bar.dart';
 import 'package:penilaian/app/core/widgets/base/base_scaffold.dart';
 import 'package:penilaian/app/core/widgets/text/no_found_widget.dart';
 import 'package:penilaian/app/data/extensions/extensions.dart';
 import 'package:penilaian/app/data/models/kriteria_model.dart';
-import 'package:penilaian/app/data/models/ktp_model.dart';
+import 'package:penilaian/app/data/models/ktm_model.dart';
 import 'package:penilaian/app/data/models/penilaian_model.dart';
 import 'package:penilaian/app/data/services/local_services/selected_local_services.dart';
 import 'package:penilaian/app/routes/app_routes.dart';
@@ -29,17 +27,16 @@ class _AlternatifPageState extends State<AlternatifPage> {
   late final CollectionReference _alternatifRef;
   late final CollectionReference _penilaianRef;
   late final CollectionReference _kriteriaRef;
-  late final Reference _storageRef;
   late final String _refKey;
 
   @override
   void initState() {
     super.initState();
-    _refKey = Modular.get<SelectedLocalServices>().selected;
+    _refKey = context.get<SelectedLocalServices>().selected;
+    print(_refKey);
     _alternatifRef = FirebaseFirestore.instance.collection('$_refKey/alternatif');
     _penilaianRef = FirebaseFirestore.instance.collection('$_refKey/nilai');
     _kriteriaRef = FirebaseFirestore.instance.collection('$_refKey/kriteria');
-    _storageRef = FirebaseStorage.instance.ref(StringHelper.imageStorage);
   }
 
   Future<void> penilaian() async {
@@ -164,7 +161,7 @@ class _AlternatifPageState extends State<AlternatifPage> {
         onEmpty: const NoFoundWidget(),
         separatorBuilder: (p0, p1) => 12.verticalSpacingRadius,
         itemBuilder: (context, snapshot, i) {
-          final data = KtpModel.fromMap(snapshot.data() as Map<Object?, Object?>);
+          final data = KtmModel.fromJson(snapshot.data() as Map<Object?, Object?>);
           return AlternatifCard(
             number: i + 1,
             data: data,
