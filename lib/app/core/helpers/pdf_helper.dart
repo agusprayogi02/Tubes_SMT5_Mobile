@@ -3,11 +3,11 @@ import 'dart:typed_data';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:penilaian/app/data/models/data_model.dart';
-import 'package:penilaian/app/data/models/ktp_model.dart';
+import 'package:penilaian/app/data/models/ktm_model.dart';
 
 class PdfHelper {
   static Future<Uint8List> generateDocument(
-      PdfPageFormat format, DataModel data, List<KtpModel> list) async {
+      PdfPageFormat format, DataModel data, List<KtmModel> list) async {
     final doc = pw.Document(pageMode: PdfPageMode.outlines);
 
     doc.addPage(
@@ -28,12 +28,12 @@ class PdfHelper {
                 pw.Paragraph(text: data.deskripsi),
                 pw.TableHelper.fromTextArray(
                   data: [
-                    ['Ranking', 'Nik', 'Nama', 'Nilai'],
+                    ['Ranking', 'NIM', 'Nama', 'Nilai'],
                     ...list.map(
                       (e) => [
                         (list.indexOf(e) + 1).toString(),
-                        e.nik ?? '-',
-                        e.name ?? '-',
+                        e.nim,
+                        e.nama,
                         e.nilai.toString(),
                       ],
                     )
