@@ -1,5 +1,5 @@
 from random import randint
-from flask import Flask, jsonify, request, flash, redirect, send_from_directory
+from flask import Flask, jsonify, request, flash, redirect, send_from_directory, make_response
 import os
 from werkzeug.utils import secure_filename
 from helper import utils
@@ -22,14 +22,12 @@ def allowed_file(filename):
 def upload_file():
     # check if the post request has the file part
     if 'file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
+        return make_response(jsonify({'error': 'No selected file'}), 400)
     file = request.files['file']
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     if file.filename is None or file.filename == '':
-        flash('No selected file')
-        return jsonify({'error': 'No selected file'})
+        return make_response(jsonify({'error': 'File wajib diisi!'}), 400)
     if file and allowed_file(file.filename):
         filename = f'file_{utils.randomString()}_{secure_filename(file.filename)}'
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -40,7 +38,7 @@ def upload_file():
         # face detection
         face = utils.faceDetector(img)
         if face is None:
-            return jsonify({'error': 'Face not found'})
+            return make_response(jsonify({'error': 'Wajah tidak terdeteksi!'}), 400)
         imgName = f'face_{utils.randomString(20)}.jpg'
         cv.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], imgName), face)
 
@@ -49,9 +47,9 @@ def upload_file():
         rest = utils.to_data(text)
         rest['foto'] = f"f/{imgName}"
         if len(rest) == 0:
-            return jsonify({'error': 'Data not found'})
+            return make_response(jsonify({'error': 'Data Tidak dapat dideteksi!'}), 400)
         return jsonify(rest)
-    return jsonify({'error': 'Jenis File tidak didukung'})
+    return make_response(jsonify({'error': 'Jenis File tidak didukung'}), 400)
 
 
 @app.route('/f/<filename>')
