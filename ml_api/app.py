@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from helper import utils
 import cv2 as cv
 from waitress import serve
+from firebase import setup_ip
 
 UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -12,6 +13,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['CUSTOM_STATIC_PATH'] = 'static'
+setup_ip()
 
 
 def allowed_file(filename):
@@ -49,7 +51,7 @@ def upload_file():
         if len(rest) == 0:
             return make_response(jsonify({'error': 'Data Tidak dapat dideteksi!'}), 400)
         return jsonify(rest)
-    return make_response(jsonify({'error': 'Jenis File tidak didukung'}), 400)
+    return make_response(jsonify({'error': 'Jenis File tidak didukung!'}), 400)
 
 
 @app.route('/f/<filename>')
@@ -58,4 +60,4 @@ def uploaded_file(filename):
 
 
 if __name__ == "__main__":
-   serve(app, host="0.0.0.0", port=8080)
+    serve(app, host="0.0.0.0", port=8080)

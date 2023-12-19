@@ -3,3 +3,4 @@ Flask
 opencv-python
 pytesseract
 waitress
+firebase_admin
