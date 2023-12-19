@@ -130,8 +130,8 @@ def findLargestCountours(cntList, cntWidths):
     cntList.pop(seccond_largest_cnt_pos)
     cntWidths.pop(seccond_largest_cnt_pos)
 
-    print('Old Screen Dimentions filtered', cntWidths)
-    print('Screen Dimentions filtered', newCntWidths)
+    # print('Old Screen Dimentions filtered', cntWidths)
+    # print('Screen Dimentions filtered', newCntWidths)
     return newCntList, newCntWidths
 
 
@@ -144,7 +144,7 @@ def extract_text(img) -> list:
     text = pytesseract.image_to_string(img, lang='ind')
     txt = []
     for word in str(text).split('\n'):
-        print(word)
+        # print(word)
         if (len(word.strip()) == 0):
             continue
         word = word.replace(':', '').replace(

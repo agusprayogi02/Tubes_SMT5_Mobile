@@ -4,6 +4,7 @@ import os
 from werkzeug.utils import secure_filename
 from helper import utils
 import cv2 as cv
+from waitress import serve
 
 UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -59,4 +60,4 @@ def uploaded_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+   serve(app, host="0.0.0.0", port=8080)

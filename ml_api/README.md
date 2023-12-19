@@ -2,3 +2,8 @@
 ```bash
 pip install -r requirements.txt
 ```
+
+Untuk merunning program
+```bash
+waitress-serve app:app
+```
