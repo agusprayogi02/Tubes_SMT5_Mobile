@@ -138,6 +138,7 @@ def findLargestCountours(cntList, cntWidths):
 def extract_text(img) -> list:
     # Preprocess image
     img = reflection(img)
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
     # Extract text
     text = pytesseract.image_to_string(img, lang='ind')
@@ -146,6 +147,8 @@ def extract_text(img) -> list:
         print(word)
         if (len(word.strip()) == 0):
             continue
+        word = word.replace(':', '').replace(
+            '\"', '').replace('(', '').replace(')', '').replace('"', '').replace(';', '').replace('?', '').replace('!', '').replace('\'', '').replace('«', '')
         txt.append(word.strip())
     return txt
 
@@ -164,3 +167,25 @@ def to_data(text: list):
             data['jalan'] = text[i+5]
             data['kota'] = text[i+6]
     return data
+
+
+def randomString(stringLength=10):
+    import random
+    import string
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
+
+
+def faceDetector(img):
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    face_cascade = cv.CascadeClassifier(
+        'static/haarcascade_frontalface_alt.xml')
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    if len(faces) == 0:
+        return None
+    (x, y, w, h) = faces[0]
+    y -= int(h*0.2)
+    h += int(h*0.4)
+    x -= int(w*0.1)
+    w += int(w*0.2)
+    return img[y:y+h, x:x+w]
