@@ -1,8 +1,8 @@
 import 'dart:io' show Directory, File;
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
 
 import '../permission/permission.dart';
@@ -41,8 +41,7 @@ class Storage extends StorageInterface {
   }) : super();
 
   @override
-  Future<File?> download(String url,
-      {bool isTemp = false, String? fileName}) async {
+  Future<File?> download(String url, {bool isTemp = false, String? fileName}) async {
     try {
       // Download file from uri with dio return File
       String fName = fileName ?? p.basenameWithoutExtension(url);
@@ -65,8 +64,8 @@ class Storage extends StorageInterface {
         i++;
       }
       // logger.w(savePath);
-      final Reference ref = FirebaseStorage.instance.ref(url);
-      await ref.writeToFile(File(savePath));
+      final dio = Dio();
+      await dio.download(url, savePath);
       return File(savePath);
     } catch (e) {
       return null;
